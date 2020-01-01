@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>blankou</name>
+	<name>F7_LL</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -24,4 +24,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 		<nature>fr.ac6.mcu.ide.core.MCUProjectNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>Cube_Drivers/stm32f7xx_ll_gpio.c</name>
+			<type>1</type>
+			<location>C:/STM32/CubeF7/Drivers/STM32F7xx_HAL_Driver/Src/stm32f7xx_ll_gpio.c</location>
+		</link>
+	</linkedResources>
 </projectDescription>

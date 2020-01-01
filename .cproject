@@ -45,6 +45,7 @@
 								<option id="com.atollic.truestudio.gcc.symbols.defined.1938178315" name="Defined symbols" superClass="com.atollic.truestudio.gcc.symbols.defined" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F756xx"/>
 									<listOptionValue builtIn="false" value="USE_STM32746G_DISCOVERY"/>
+									<listOptionValue builtIn="false" value="USE_FULL_LL_DRIVER"/>
 								</option>
 								<option id="com.atollic.truestudio.gcc.misc.otherflags.262926187" name="Other options" superClass="com.atollic.truestudio.gcc.misc.otherflags" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string"/>
 								<option id="com.atollic.truestudio.common_options.target.mcpu.1005621352" name="Microcontroller" superClass="com.atollic.truestudio.common_options.target.mcpu" useByScannerDiscovery="false" value="STM32F746NG" valueType="enumerated"/>
