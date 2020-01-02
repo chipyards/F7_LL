@@ -4,8 +4,10 @@
 #include "stm32f7xx.h"
 // #include "stm32f7xx_ll_bus.h"
 #include "stm32f7xx_ll_rcc.h"
+#include "stm32f7xx_ll_pwr.h"
 #include "options.h"
 #include "s_gpio.h"
+#include "uarts.h"
 
 // declaration
 void SystemCoreClockUpdate(void);
@@ -20,7 +22,9 @@ volatile unsigned int lookatme;		// pour debug
 void SysTick_Handler()
 {
 ++ticks;
+#ifdef PROFILER_PI2
 profile_D8( ticks & 1 );
+#endif
 }
 
 void HSE_start(void)
@@ -66,18 +70,38 @@ lookatme = SystemCoreClock;
 SystemCoreClockUpdate();	// 16 MHz HSI 1% precision
 lookatme = SystemCoreClock;
 GPIO_config_LCD_BL();	// eteindre le backlight qui est on au reset (pullup)
+#ifdef PROFILER_PI2
 GPIO_config_profiler_PI1_PI2();
+#endif
 HSE_start();			// 25 MHz Xtal precision
 SystemCoreClockUpdate();
 lookatme = SystemCoreClock;
 
 // config systick @ 100Hz
 Systick_init( SystemCoreClock / 100 );
+#ifdef USE_UART1
+CDC_init();
+CDC_print("Hello World %u Hz\n", lookatme );
+#endif
 
 /* Infinite loop */
 while	(1)
 	{
-	lookatme ^= 1;
+	lookatme += 1;
+	#ifdef USE_UART1
+	int c;
+	if	( ( c = CDC_getcmd() ) > 0 )
+		CDC_print("cmd '%c' %u\n", c, lookatme );
+	#endif
+	#ifdef GREEN_CPU
+	/* Clear SLEEPDEEP bit of Cortex System Control Register */
+  	CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+	/* Ensure that all instructions done before entering SLEEP mode */
+	__DSB();
+	__ISB();
+	// Wait For Interrupt
+	__WFI();
+	#endif
 	}
 }
 
