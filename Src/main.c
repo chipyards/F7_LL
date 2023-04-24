@@ -91,7 +91,16 @@ while	(1)
 	#ifdef USE_UART1
 	int c;
 	if	( ( c = CDC_getcmd() ) > 0 )
-		CDC_print("cmd '%c' %u\n", c, lookatme );
+		{
+		switch	(c)
+			{
+			case '0' : profile_D13( 0 ); break;
+			case '1' : profile_D13( 1 ); break;
+			case 'L' : LCD_BL( 1 ); break;
+			case 'D' : LCD_BL( 0 ); break;
+			default  : CDC_print("cmd '%c' %u\n", c, lookatme );
+			}
+		}
 	#endif
 	#ifdef GREEN_CPU
 	/* Clear SLEEPDEEP bit of Cortex System Control Register */

@@ -15,6 +15,7 @@ void GPIO_config_uart1(void);
 void GPIO_config_uart6(void);
 void GPIO_config_profiler_PI1_PI2( void );
 void GPIO_config_LCD_BL(void);
+void LCD_BL( int val );
 // action bits profiler
 void profile_D13( int val );
 void profile_D8( int val );

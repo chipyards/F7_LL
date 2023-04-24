@@ -80,8 +80,18 @@ return c;
 // LOW LAYER ------------------------------------------------------------------------------
 
 // code d'initialisation communs aux UARTs
-static void UART_8_N( USART_TypeDef * U, unsigned int bauds, int stops )
+// la source d'horloge DOIT etre PCLK2
+static void UART_8_N( USART_TypeDef * U, unsigned int bauds )
 {
+// uint32_t periphclk = LL_RCC_GetUSARTClockFreq(LL_RCC_USART1_CLKSOURCE);
+uint32_t periphclk = __LL_RCC_CALC_PCLK2_FREQ( SystemCoreClock, LL_RCC_GetAPB2Prescaler() );
+LL_USART_SetBaudRate( U, periphclk, LL_USART_OVERSAMPLING_16, bauds );
+// 8 data bit, 1 start bit, 1 stop bit, no parity */
+LL_USART_ConfigCharacter( U, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1 );
+LL_USART_SetTransferDirection( U, LL_USART_DIRECTION_TX_RX );
+LL_USART_SetHWFlowCtrl( U, LL_USART_HWCONTROL_NONE );
+LL_USART_SetOverSampling( U, LL_USART_OVERSAMPLING_16 );
+/*
 LL_USART_InitTypeDef usart_initstruct;
 usart_initstruct.BaudRate            = bauds;
 usart_initstruct.DataWidth           = LL_USART_DATAWIDTH_8B;
@@ -91,6 +101,7 @@ usart_initstruct.TransferDirection   = LL_USART_DIRECTION_TX_RX;
 usart_initstruct.HardwareFlowControl = LL_USART_HWCONTROL_NONE;
 usart_initstruct.OverSampling        = LL_USART_OVERSAMPLING_16;
 LL_USART_Init( U, &usart_initstruct);
+*/
 LL_USART_Enable( U );
 // wait
 while	(!(LL_USART_IsActiveFlag_TEACK( U )))
@@ -111,8 +122,8 @@ NVIC_EnableIRQ( IRQn );
 void UART1_init( unsigned int bauds )
 {
 LL_APB2_GRP1_EnableClock( LL_APB2_GRP1_PERIPH_USART1 );
-LL_RCC_SetUSARTClockSource( LL_RCC_USART1_CLKSOURCE_PCLK2 );
-UART_8_N( USART1, bauds, 1 );
+LL_RCC_SetUSARTClockSource( LL_RCC_USART1_CLKSOURCE_PCLK2 ); // PCLK2 = APB2
+UART_8_N( USART1, bauds );
 
 NVIC_init( USART1_IRQn, 9 );
 NVIC_ClearPendingIRQ( USART1_IRQn );
@@ -142,7 +153,7 @@ void UART6_init( unsigned int bauds )
 {
 LL_APB2_GRP1_EnableClock( LL_APB2_GRP1_PERIPH_USART6 );
 LL_RCC_SetUSARTClockSource( LL_RCC_USART6_CLKSOURCE_PCLK2 );
-UART_8_N( USART6, bauds, 2 );
+UART_8_N( USART6, bauds );
 
 NVIC_init( USART6_IRQn, 10 );
 NVIC_ClearPendingIRQ( USART6_IRQn );
