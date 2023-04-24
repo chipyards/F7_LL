@@ -15,7 +15,7 @@ LL_GPIO_SetPinMode(       GPIOA, LL_GPIO_PIN_9, LL_GPIO_MODE_ALTERNATE);
 LL_GPIO_SetPinOutputType( GPIOA, LL_GPIO_PIN_9, LL_GPIO_OUTPUT_PUSHPULL );
 LL_GPIO_SetPinSpeed(      GPIOA, LL_GPIO_PIN_9, LL_GPIO_SPEED_FREQ_MEDIUM);
 LL_GPIO_SetPinPull(       GPIOA, LL_GPIO_PIN_9, LL_GPIO_PULL_NO );
-LL_GPIO_SetAFPin_0_7(     GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_7);
+LL_GPIO_SetAFPin_8_15(    GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_7);	//!!// _8_15 parceque pin 9
 /*
 LL_GPIO_InitTypeDef gpio_initstruct;
 gpio_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
@@ -32,7 +32,7 @@ LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
 LL_GPIO_SetPinMode(       GPIOB, LL_GPIO_PIN_7, LL_GPIO_MODE_ALTERNATE);
 LL_GPIO_SetPinPull(       GPIOB, LL_GPIO_PIN_7, LL_GPIO_PULL_NO);
 LL_GPIO_SetPinSpeed(      GPIOB, LL_GPIO_PIN_7, LL_GPIO_SPEED_FREQ_MEDIUM);
-LL_GPIO_SetAFPin_0_7(     GPIOB, LL_GPIO_PIN_7, LL_GPIO_AF_7);
+LL_GPIO_SetAFPin_0_7(     GPIOB, LL_GPIO_PIN_7, LL_GPIO_AF_7);	//!!// _0_7 parceque pin 7
 /*
 gpio_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
 gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_MEDIUM;
