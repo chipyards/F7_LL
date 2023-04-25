@@ -5,6 +5,7 @@
 // #include "stm32f7xx_ll_bus.h"
 #include "stm32f7xx_ll_rcc.h"
 #include "stm32f7xx_ll_pwr.h"
+#include "math.h"
 #include "options.h"
 #include "s_gpio.h"
 #include "uarts.h"
@@ -16,7 +17,15 @@ void SystemCoreClockUpdate(void);
 volatile unsigned int ticks = 0;
 volatile unsigned int lookatme;		// pour debug
 
-/* Private functions ---------------------------------------------------------*/
+/* Application functions ---------------------------------------------------------*/
+#include "float_test.h"
+
+void FPU_status()
+{
+CDC_print("SCB->CPACR = %08X\n",  SCB->CPACR );
+}
+
+/* System functions ---------------------------------------------------------*/
 
 // systick interrupt handler
 void SysTick_Handler()
@@ -33,7 +42,7 @@ LL_RCC_HSE_DisableBypass();
 LL_RCC_HSE_Enable();
 while	(!LL_RCC_HSE_IsReady())
 	{}
-// N.B. SYSCLK c'est l'horloge dont sont del=rivees celles des bus AHB, APB1, APB2
+// N.B. SYSCLK c'est l'horloge dont sont derivees celles des bus AHB, APB1, APB2
 // HCLK c'est l'horloge du bus AHB
 LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE);
 }
@@ -42,8 +51,6 @@ LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE);
 //LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_2);
 //LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_2);
 
-//LL_RCC_SetUSARTClockSource(LL_RCC_USART1_CLKSOURCE_SYSCLK);
-//LL_RCC_SetUSARTClockSource(LL_RCC_USART6_CLKSOURCE_SYSCLK);
 
 // config systick avec interrupt
 void Systick_init( unsigned int periode_en_ticks )
@@ -98,6 +105,13 @@ while	(1)
 			case '1' : profile_D13( 1 ); break;
 			case 'L' : LCD_BL( 1 ); break;
 			case 'D' : LCD_BL( 0 ); break;
+			case 'f' : FPU_status(); break;
+//			case 'a' : {	float F; F = float_test_a( 200.0f, 10000.0f );
+//					CDC_print("F = %d\n", (int)F );	} break;
+			case 'b' : {	float F; F = float_test_b( 200.0f, 10000.0f );
+					CDC_print("F = %d\n", (int)F );	} break;
+//			case 'c' : {	float F; F = float_test_c( 200.0f, 10000.0f );
+//					CDC_print("F = %d\n", (int)F );	} break;
 			default  : CDC_print("cmd '%c' %u\n", c, lookatme );
 			}
 		}
