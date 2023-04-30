@@ -19,6 +19,8 @@ void LCD_BL( int val );
 // action bits profiler
 void profile_D13( int val );
 void profile_D8( int val );
+#define profile_D8_hi() LL_GPIO_SetOutputPin( GPIOI, LL_GPIO_PIN_2 );
+#define profile_D8_lo() LL_GPIO_ResetOutputPin( GPIOI, LL_GPIO_PIN_2 );
 
 #ifdef __cplusplus
 }

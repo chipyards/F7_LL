@@ -6,6 +6,7 @@
 #include "stm32f7xx_ll_rcc.h"
 #include "stm32f7xx_ll_bus.h"
 #include "stm32f7xx_ll_pwr.h"
+#include "stm32f7xx_ll_gpio.h"
 #include "math.h"
 #include <stdio.h>
 #include "options.h"
@@ -35,13 +36,10 @@ CDC_print("SCB->CPACR = %08X\n",  SCB->CPACR );
 extern "C" void SysTick_Handler()
 {
 ++ticks;
-#ifdef PROFILER_PI2
-profile_D8( ticks & 1 );
-#endif
 switch	( ticks % 100 )
 	{
-	case 0 : profile_D13( 1 ); break;
-	case 5 : profile_D13( 0 ); break;
+	case 0 : profile_D8_lo(); profile_D13( 1 ); break;
+	case 5 : profile_D8_hi(); profile_D13( 0 ); break;
 	}
 }
 
@@ -119,12 +117,9 @@ while	(1)
 			case 'L' : LCD_BL( 1 ); break;
 			case 'D' : LCD_BL( 0 ); break;
 			case 'f' : FPU_status(); break;
-//			case 'a' : {	float F; F = float_test_a( 200.0f, 10000.0f );
-//					CDC_print("F = %d\n", (int)F );	} break;
-			case 'b' : {	float F; F = float_test_b( 200.0f, 10000.0f );
+			case 'a' : {	float F; F = float_test_b( 200.0f, 10000.0f );
 					CDC_print("F = %d\n", (int)F );	} break;
-//			case 'c' : {	float F; F = float_test_c( 200.0f, 10000.0f );
-//					CDC_print("F = %d\n", (int)F );	} break;
+			case 'B' : CDC_print("baud div = %u\n", (unsigned int)USART1->BRR ); break;
 			default  : CDC_print("cmd '%c' %u\n", c, SystemCoreClock );
 			}
 		}
