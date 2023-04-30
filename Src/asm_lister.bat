@@ -1,7 +1,7 @@
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -O0 -Wall -S -o ..\Doc\float_testO0.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -O1 -Wall -S -o ..\Doc\float_testO1.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -O2 -Wall -S -o ..\Doc\float_testO2.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -O3 -Wall -S -o ..\Doc\float_testO3.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -Os -Wall -S -o ..\Doc\float_testOs.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -Og -Wall -S -o ..\Doc\float_testOg.txt
-arm-atollic-eabi-gcc ..\Src\float_test.c -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu11 -Ofast -Wall -S -o ..\Doc\float_testOfast.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -O0 -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testO0.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -O1 -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testO1.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -O2 -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testO2.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -O3 -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testO3.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -Os -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testOs.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -Og -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testOg.txt
+arm-atollic-eabi-g++ ..\Src\float_test.cpp -mthumb -mcpu=cortex-m7 -mfloat-abi=hard -mfpu=fpv5-sp-d16 -std=gnu++98 -Ofast -Wall -fno-rtti -fno-exceptions -fno-threadsafe-statics -S -o ..\Doc\float_testOfast.txt

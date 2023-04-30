@@ -1,7 +1,11 @@
 // #define	USE_FULL_LL_DRIVER // c'est dans .cproject
 
 
-#define GREEN_CPU		// sleep dans main loop
+#define GREEN_CPU	// sleep dans main loop
+//#define OPT_HSE		// 25 MHz Xtal
+//#define OPT_PLL
+#define FRE_PLL		200
+
 
 /** modules optionnels **/
 #define USE_UART1		// CDC vers PC via ST-Link
