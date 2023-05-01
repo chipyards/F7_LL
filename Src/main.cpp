@@ -20,7 +20,6 @@ static void CPU_CACHE_Enable(void);
 
 // variables
 volatile unsigned int ticks = 0;
-volatile unsigned int lookatme;		// pour debug
 
 /* Application functions ---------------------------------------------------------*/
 #include "float_test.h"
@@ -106,8 +105,12 @@ SystemCoreClockUpdate();
 Systick_init( SystemCoreClock / 100 );
 #ifdef USE_UART1
 CDC_init();
-CDC_print("Hello World %u Hz\n", lookatme );
+CDC_print("Hello World %u Hz\n", SystemCoreClock );
 #endif
+
+int cntA = 8192;
+float A[cntA];
+int cnt = cntA;
 
 /* Infinite loop */
 while	(1)
@@ -122,9 +125,73 @@ while	(1)
 			case '1' : profile_D13( 1 ); break;
 			case 'L' : LCD_BL( 1 ); break;
 			case 'D' : LCD_BL( 0 ); break;
-			case 'f' : FPU_status(); break;
-			case 'a' : {	float F; F = float_test_b( 200.0f, 10000.0f );
-					CDC_print("F = %d\n", (int)F );	} break;
+			case 'F' : FPU_status(); break;
+			case 'a' : {
+				profile_D8_hi();
+				unsigned int cycle = generate( A, cnt );
+				profile_D8_lo();
+				CDC_print("%u : %d, %d, %d ... %d\n", cycle, int(A[1]*1000.0), int(A[2]*1000.0), int(A[3]*1000.0), int(A[cnt-1]*1000.0) );
+				} break;
+			case 'b' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 12;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
+			case 'c' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 500;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
+			case 'd' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 1000;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
+			case 'e' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 2000;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
+			case 'f' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 4000;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
+			case 'g' : {
+				float resu[5]; void * vresu; int * iresu; cnt = 8000;
+				profile_D8_hi();
+				macbench( cnt, A, resu );
+				profile_D8_lo();
+				vresu = (void *)resu;
+				iresu = (int *)vresu;
+				CDC_print("%5d %08x, %08x, %08x, %08x, %08x, %d, %d, %d, %d, %d\n", cnt,
+					iresu[0], iresu[1], iresu[2], iresu[3], iresu[4], int(resu[0]), int(resu[1]), int(resu[2]), int(resu[3]), int(resu[4]) );
+				} break;
 			case 'B' : CDC_print("baud div = %u\n", (unsigned int)USART1->BRR ); break;
 			default  : CDC_print("cmd '%c' %u\n", c, SystemCoreClock );
 			}
@@ -134,7 +201,7 @@ while	(1)
 		profile_D13( 1 );
 	else	{
 		#ifdef GREEN_CPU
-		profile_D8_tog();
+		// profile_D8_tog();
 		/* Clear SLEEPDEEP bit of Cortex System Control Register */
   		CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
 		/* Ensure that all instructions done before entering SLEEP mode */
