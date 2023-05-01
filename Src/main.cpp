@@ -38,8 +38,13 @@ extern "C" void SysTick_Handler()
 ++ticks;
 switch	( ticks % 100 )
 	{
-	case 0 : profile_D8_lo(); profile_D13( 1 ); break;
-	case 5 : profile_D8_hi(); profile_D13( 0 ); break;
+	// LED blink
+	case 0  : profile_D13( 1 ); break;
+	case 5  : profile_D13( 0 ); break;
+	/* 1s pulse for clock check *
+	case 10 : profile_D8_lo(); break;
+	case 20 : profile_D8_hi(); break;
+	//*/
 	}
 }
 
@@ -77,6 +82,7 @@ CPU_CACHE_Enable();
 
 SystemCoreClockUpdate();	// 16 MHz HSI 1% precision
 
+GPIO_config();
 GPIO_config_LCD_BL();	// eteindre le backlight qui est on au reset (pullup)
 #ifdef PROFILER_PI2
 GPIO_config_profiler_PI1_PI2();
@@ -124,15 +130,21 @@ while	(1)
 			}
 		}
 	#endif
-	#ifdef GREEN_CPU
-	/* Clear SLEEPDEEP bit of Cortex System Control Register */
-  	CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
-	/* Ensure that all instructions done before entering SLEEP mode */
-	__DSB();
-	__ISB();
-	// Wait For Interrupt
-	__WFI();
-	#endif
+	if	( IS_BLUE_PRESSED() )	// ANTI BRICK GREEN CPU
+		profile_D13( 1 );
+	else	{
+		#ifdef GREEN_CPU
+		profile_D8_tog();
+		/* Clear SLEEPDEEP bit of Cortex System Control Register */
+  		CLEAR_BIT(SCB->SCR, ((uint32_t)SCB_SCR_SLEEPDEEP_Msk));
+		/* Ensure that all instructions done before entering SLEEP mode */
+		__DSB();
+		__ISB();
+		// Wait For Interrupt
+		__WFI();
+		// profile_D8_lo();
+		#endif
+		}
 	}
 }
 

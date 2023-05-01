@@ -5,6 +5,16 @@
 #include "stm32f7xx_ll_gpio.h"
 #include "s_gpio.h"
 
+void GPIO_config(void)
+{
+// port I (aussi utilise pour LED verte et bouton bleu)
+LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOI);
+// PI11	(Bouton bleu, act. Hi + capa//)
+LL_GPIO_SetPinMode(       GPIOI, LL_GPIO_PIN_11, LL_GPIO_MODE_INPUT );
+LL_GPIO_SetPinSpeed(      GPIOI, LL_GPIO_PIN_11, LL_GPIO_SPEED_FREQ_MEDIUM);
+LL_GPIO_SetPinPull(       GPIOI, LL_GPIO_PIN_11, LL_GPIO_PULL_NO);
+}
+
 #ifdef USE_UART1
 void GPIO_config_uart1(void)
 {
@@ -16,16 +26,7 @@ LL_GPIO_SetPinOutputType( GPIOA, LL_GPIO_PIN_9, LL_GPIO_OUTPUT_PUSHPULL );
 LL_GPIO_SetPinSpeed(      GPIOA, LL_GPIO_PIN_9, LL_GPIO_SPEED_FREQ_MEDIUM);
 LL_GPIO_SetPinPull(       GPIOA, LL_GPIO_PIN_9, LL_GPIO_PULL_NO );
 LL_GPIO_SetAFPin_8_15(    GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_7);	//!!// _8_15 parceque pin 9
-/*
-LL_GPIO_InitTypeDef gpio_initstruct;
-gpio_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_MEDIUM;
-gpio_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-gpio_initstruct.Pull       = LL_GPIO_PULL_NO;
-gpio_initstruct.Alternate  = LL_GPIO_AF_7;
-gpio_initstruct.Pin        = LL_GPIO_PIN_9;
-LL_GPIO_Init(GPIOA, &gpio_initstruct);
-*/
+
 // port B
 LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_GPIOB);
 // RB7 alternate input				// UART 1 RX
@@ -33,14 +34,7 @@ LL_GPIO_SetPinMode(       GPIOB, LL_GPIO_PIN_7, LL_GPIO_MODE_ALTERNATE);
 LL_GPIO_SetPinPull(       GPIOB, LL_GPIO_PIN_7, LL_GPIO_PULL_NO);
 LL_GPIO_SetPinSpeed(      GPIOB, LL_GPIO_PIN_7, LL_GPIO_SPEED_FREQ_MEDIUM);
 LL_GPIO_SetAFPin_0_7(     GPIOB, LL_GPIO_PIN_7, LL_GPIO_AF_7);	//!!// _0_7 parceque pin 7
-/*
-gpio_initstruct.Mode       = LL_GPIO_MODE_ALTERNATE;
-gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_MEDIUM;
-gpio_initstruct.Pull       = LL_GPIO_PULL_NO;
-gpio_initstruct.Alternate  = LL_GPIO_AF_7;
-gpio_initstruct.Pin        = LL_GPIO_PIN_7;
-LL_GPIO_Init(GPIOB, &gpio_initstruct);
-*/
+
 }
 #endif
 #ifdef USE_UART6
@@ -77,15 +71,7 @@ LL_GPIO_SetPinMode(       GPIOI, LL_GPIO_PIN_2, LL_GPIO_MODE_OUTPUT );
 LL_GPIO_SetPinOutputType( GPIOI, LL_GPIO_PIN_2, LL_GPIO_OUTPUT_PUSHPULL );
 LL_GPIO_SetPinSpeed(      GPIOI, LL_GPIO_PIN_2, LL_GPIO_SPEED_FREQ_VERY_HIGH);
 LL_GPIO_SetPinPull(       GPIOI, LL_GPIO_PIN_2, LL_GPIO_PULL_NO);
-/*
-LL_GPIO_InitTypeDef gpio_initstruct;
-gpio_initstruct.Mode       = LL_GPIO_MODE_OUTPUT;
-gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_VERY_HIGH;
-gpio_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-gpio_initstruct.Pull       = LL_GPIO_PULL_NO;
-gpio_initstruct.Pin        = LL_GPIO_PIN_1 | LL_GPIO_PIN_2;
-LL_GPIO_Init(GPIOI, &gpio_initstruct);
-*/
+
 profile_D13(0);
 profile_D8(0);
 }
@@ -116,15 +102,6 @@ LL_GPIO_SetPinMode(       GPIOK, LCD_BL_GPIOK_PIN, LL_GPIO_MODE_OUTPUT );
 LL_GPIO_SetPinOutputType( GPIOK, LCD_BL_GPIOK_PIN, LL_GPIO_OUTPUT_PUSHPULL );
 LL_GPIO_SetPinSpeed(      GPIOK, LCD_BL_GPIOK_PIN, LL_GPIO_SPEED_FREQ_LOW );
 LL_GPIO_SetPinPull(       GPIOK, LCD_BL_GPIOK_PIN, LL_GPIO_PULL_NO );
-/*
-LL_GPIO_InitTypeDef gpio_initstruct;
-gpio_initstruct.Mode       = LL_GPIO_MODE_OUTPUT;
-gpio_initstruct.Speed      = LL_GPIO_SPEED_FREQ_LOW;
-gpio_initstruct.OutputType = LL_GPIO_OUTPUT_PUSHPULL;
-gpio_initstruct.Pull       = LL_GPIO_PULL_NO;
-gpio_initstruct.Pin        = LCD_BL_GPIOK_PIN;
-LL_GPIO_Init(GPIOK, &gpio_initstruct);
-*/
 LCD_BL(0);
 }
 
